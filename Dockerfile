@@ -6,7 +6,8 @@ WORKDIR /app
 
 COPY app-core/ ./app-core/
 COPY .env ./
-
-RUN pip install --no-cache-dir requests python-dotenv
+COPY requirements.txt ./
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
 CMD ["python", "app-core/main.py"]

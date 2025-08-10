@@ -2,16 +2,22 @@ version: '3.8'
 
 services:
   ollama:
-    image: ollama/ollama
+    build:
+      context: .
+      dockerfile: Dockerfile.ollama
     container_name: ollama
     ports:
       - "11434:11434"
     volumes:
       - ollama-data:/root/.ollama
+      - ./start-ollama.sh:/start-ollama.sh
     healthcheck:
-      test: curl -f http://localhost:11436 || exit 1
-      interval: 10s
-      retries: 5
+      test: curl -f http://localhost:11434 || exit 1
+      interval: 20s
+      retries: 10
+    entrypoint: ["/bin/sh", "-c", "/start-ollama.sh"]
+    #entrypoint: ["/bin/sh", "-c", "ollama pull llama3 && ollama serve"]
+    #entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 2 && ollama pull llama3 && wait"]
 
   echoworm:
     build: .
@@ -20,7 +26,7 @@ services:
         condition: service_healthy
     environment:
       LLM_BACKEND: ollama
-      OLLAMA_BASE_URL: http://ollama:11436
+      OLLAMA_BASE_URL: http://ollama:11434
     stdin_open: true
     tty: true
 

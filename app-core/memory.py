@@ -3,7 +3,7 @@ from config import Config
 
 class Memory:
     def __init__(self):
-        self.conn = sqlite3.connect(Config.DB_PATH)
+        self.conn = sqlite3.connect(Config.DB_PATH, check_same_thread=False)
         self._init_schema()
 
     def _init_schema(self):
