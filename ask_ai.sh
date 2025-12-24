@@ -6,7 +6,7 @@ OLLAMA_URL="http://localhost:11434/api/generate"
 MODEL="llama3"
 
 if [ -z "$PROMPT" ]; then
-  echo "Usage: $0 'Your prompt here'"
+  echo "Usage: $0 'Your prompt here, bruh...'"
   exit 1
 fi
 
